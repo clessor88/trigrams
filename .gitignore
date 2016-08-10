@@ -88,3 +88,10 @@ ENV/
 # Rope project settings
 .ropeproject
 alice
+
+#
+bin/
+lib64
+pip-selfcheck.json
+pyvenv.cfg
+share/
