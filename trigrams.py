@@ -10,7 +10,7 @@ def create_word_bank(word_list):
     word_bank = {}
     for i, word in enumerate(word_list):
         key = word + ' ' + word_list[i + 1]
-        if i < len(word_list) - 2:
+        if i < len(word_list) - 3:
             word_bank.setdefault(key, []).append(word_list[i + 2])
         else:
             break
