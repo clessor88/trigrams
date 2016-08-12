@@ -28,6 +28,7 @@ def create_text(num_words, word_list):
             text_list.append(word_bank[key][randint(0,
                              len(word_bank[key]) - 1)])
         except KeyError:
+            rand = randint(0, len(word_list) - 3)
             text_list.extend([word_list[rand], word_list[rand + 1]])
     return ' '.join(text_list) + ' ...'
 
