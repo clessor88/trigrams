@@ -89,9 +89,10 @@ ENV/
 .ropeproject
 alice
 
-#
+#Project specific
 bin/
 lib64
 pip-selfcheck.json
 pyvenv.cfg
 share/
+.tox/
