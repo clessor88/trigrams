@@ -1,6 +1,7 @@
+"""Trigram analysis text generator."""
+
 import sys
 from random import randint
-from random import sample
 import io
 
 
@@ -9,32 +10,30 @@ def create_word_bank(word_list):
     word_bank = {}
     for i, word in enumerate(word_list):
         key = word + ' ' + word_list[i + 1]
-        if key in word_bank and i < len(word_list) - 2:
-            word_bank[key].append(word_list[i + 2])
-        elif i < len(word_list) - 2:
-            word_bank[key] = [word_list[i + 2]]
+        if i < len(word_list) - 2:
+            word_bank.setdefault(key, []).append(word_list[i + 2])
         else:
             break
     return word_bank
 
 
 def create_text(num_words, word_list):
-    """This generates the block of computer generated text."""
+    """Generate the block of computer generated text."""
     word_bank = create_word_bank(word_list)
-    rand = randint(0, len(word_list) - 1)
-    key = word_list[rand] + ' ' + word_list[rand + 1]
-    text = '...' + key
+    rand = randint(0, len(word_list) - 3)
+    text_list = ['...', word_list[rand], word_list[rand + 1]]
     for i in range(num_words):
-        next_word = word_bank[key][randint(0, len(word_bank[key]) - 1)]
-        text += ' ' + next_word
-        tmp = text.split()
-        key = tmp[-2] + ' ' + next_word
-    print(text)
-
+        key = text_list[-2] + ' ' + text_list[-1]
+        try:
+            text_list.append(word_bank[key][randint(0,
+                             len(word_bank[key]) - 1)])
+        except KeyError:
+            text_list.extend([word_list[rand], word_list[rand + 1]])
+    return ' '.join(text_list) + ' ...'
 
 
 def generate_trigrams(filename, num_words):
-    """Generates trigram output"""
+    """Generate trigram output."""
     f = io.open(filename, encoding='utf-8')
     text = f.read()
     f.close()
