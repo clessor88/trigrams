@@ -22,7 +22,7 @@ def create_text(num_words, word_list):
     word_bank = create_word_bank(word_list)
     rand = randint(0, len(word_list) - 3)
     text_list = ['...', word_list[rand], word_list[rand + 1]]
-    for i in range(num_words):
+    for i in range(num_words - 2):
         key = text_list[-2] + ' ' + text_list[-1]
         try:
             text_list.append(word_bank[key][randint(0,
@@ -41,6 +41,7 @@ def generate_trigrams(filename, num_words):
     word_list = text.split()
     text = create_text(num_words, word_list)
     print(text)
+    print(len(text.split()))
     return text
 
 
