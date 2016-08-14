@@ -10,7 +10,7 @@ def create_word_bank(word_list):
     word_bank = {}
     for i, word in enumerate(word_list):
         key = word + ' ' + word_list[i + 1]
-        if i < len(word_list) - 3:
+        if i < len(word_list) - 2:
             word_bank.setdefault(key, []).append(word_list[i + 2])
         else:
             break
@@ -22,7 +22,7 @@ def create_text(num_words, word_list):
     word_bank = create_word_bank(word_list)
     rand = randint(0, len(word_list) - 3)
     text_list = ['...', word_list[rand], word_list[rand + 1]]
-    for i in range(num_words):
+    for i in range(num_words - 2):
         key = text_list[-2] + ' ' + text_list[-1]
         try:
             text_list.append(word_bank[key][randint(0,
@@ -35,13 +35,21 @@ def create_text(num_words, word_list):
 
 def generate_trigrams(filename, num_words):
     """Generate trigram output."""
-    f = io.open(filename, encoding='utf-8')
-    text = f.read()
-    f.close()
-    word_list = text.split()
-    text = create_text(num_words, word_list)
-    print(text)
-    return text
+    try:
+        f = io.open(filename, encoding='utf-8')
+        text = f.read()
+        f.close()
+    except FileNotFoundError:
+        print('File was not found.  Ensure that the file exists.')
+        sys.exit(1)
+    except IOError:
+        print('There was a problem opening the file.')
+        sys.exit(1)
+    else:
+        word_list = text.split()
+        text = create_text(num_words, word_list)
+        print(text)
+        return text
 
 
 def main():
@@ -51,11 +59,11 @@ def main():
         sys.exit(1)
     try:
         num_words = int(sys.argv[2])
-    except:
-        print(u'num_words must be a positive number')
+    except ValueError:
+        print(u'num_words must be a number.')
     else:
         if num_words > 1000 or num_words < 1:
-            print(u'num_words must be between 1 and 1000')
+            print(u'num_words must be between 1 and 1000.')
             sys.exit(1)
         else:
             filename = sys.argv[1]
