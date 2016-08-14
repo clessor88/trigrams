@@ -35,13 +35,21 @@ def create_text(num_words, word_list):
 
 def generate_trigrams(filename, num_words):
     """Generate trigram output."""
-    f = io.open(filename, encoding='utf-8')
-    text = f.read()
-    f.close()
-    word_list = text.split()
-    text = create_text(num_words, word_list)
-    print(text)
-    return text
+    try:
+        f = io.open(filename, encoding='utf-8')
+        text = f.read()
+        f.close()
+    except FileNotFoundError:
+        print('File was not found.  Ensure that the file exists.')
+        sys.exit(1)
+    except IOError:
+        print('There was a problem opening the file.')
+        sys.exit(1)
+    else:
+        word_list = text.split()
+        text = create_text(num_words, word_list)
+        print(text)
+        return text
 
 
 def main():
@@ -51,7 +59,7 @@ def main():
         sys.exit(1)
     try:
         num_words = int(sys.argv[2])
-    except:
+    except ValueError:
         print(u'num_words must be a number.')
     else:
         if num_words > 1000 or num_words < 1:
