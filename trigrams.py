@@ -10,7 +10,7 @@ def create_word_bank(word_list):
     word_bank = {}
     for i, word in enumerate(word_list):
         key = word + ' ' + word_list[i + 1]
-        if i < len(word_list) - 3:
+        if i < len(word_list) - 2:
             word_bank.setdefault(key, []).append(word_list[i + 2])
         else:
             break
@@ -41,7 +41,6 @@ def generate_trigrams(filename, num_words):
     word_list = text.split()
     text = create_text(num_words, word_list)
     print(text)
-    print(len(text.split()))
     return text
 
 
@@ -53,10 +52,10 @@ def main():
     try:
         num_words = int(sys.argv[2])
     except:
-        print(u'num_words must be a positive number')
+        print(u'num_words must be a number.')
     else:
         if num_words > 1000 or num_words < 1:
-            print(u'num_words must be between 1 and 1000')
+            print(u'num_words must be between 1 and 1000.')
             sys.exit(1)
         else:
             filename = sys.argv[1]
